@@ -14,7 +14,6 @@ const debug = require('debug')('server');
 const config = require('./config');
 
 const app = express();
-console.log(config.mongoose.url);
 mongoose.connect(config.mongoose.url);
 
 const Account = require('./models/account');
@@ -62,7 +61,7 @@ const options = {
   debug('start listen %d', config.server.port);
 });*/
 
-app.listen(config.server.port, () => {
+app.listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', config.server.port);
 });
