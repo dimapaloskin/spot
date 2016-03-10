@@ -43,7 +43,7 @@ module.exports = {
       }, (err, results) => {
 
         if (err) {
-          callback(createError('google'));
+          return callback(createError('google', err));
         }
 
         callback(null, {
