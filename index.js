@@ -14,6 +14,7 @@ const debug = require('debug')('server');
 const config = require('./config');
 
 const app = express();
+console.log(config.mongoose.url);
 mongoose.connect(config.mongoose.url);
 
 const Account = require('./models/account');
