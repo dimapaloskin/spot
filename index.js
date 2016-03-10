@@ -9,6 +9,7 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const mongoose = require('mongoose');
 const passport = require('passport');
+const debug = require('debug')('server');
 
 const config = require('./config');
 
@@ -55,9 +56,9 @@ const options = {
     rejectUnauthorized: false
 };
 
-const server = https.createServer(options, app).listen(3000, () => {
+const server = https.createServer(options, app).listen(config.server.port, () => {
 
-  console.log('server started');
+  debug('start listen %d', config.server.port);
 });
 
 /*app.listen(3000, () => {

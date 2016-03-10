@@ -1,6 +1,8 @@
 const config = {
 
-  db: {},
+  server: {
+    port: 3000
+  },
 
   mongoose: {
     url: 'mongodb://localhost:27017/fstlr'
