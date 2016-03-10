@@ -56,13 +56,12 @@ const options = {
     rejectUnauthorized: false
 };
 
-const server = https.createServer(options, app).listen(config.server.port, () => {
+/*const server = https.createServer(options, app).listen(config.server.port, () => {
+
+  debug('start listen %d', config.server.port);
+});*/
+
+app.listen(config.server.port, () => {
 
   debug('start listen %d', config.server.port);
 });
-
-/*app.listen(3000, () => {
-
-  console.log('server started');
-});
-*/
