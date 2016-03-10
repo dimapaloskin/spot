@@ -1,0 +1,30 @@
+{
+  "name": "spotsty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "prod": "NODE_ENV=production node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "connect-redis": "^3.0.2",
+    "cookie-parser": "^1.4.1",
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "google-auth-library": "^0.9.7",
+    "googleapis": "^2.1.7",
+    "lodash": "^4.6.1",
+    "mongoose": "^4.4.6",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.69.0"
+  }
+}
