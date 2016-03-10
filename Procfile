@@ -1,1 +1,1 @@
-web: NODE_ENV=production node index.js
+web: NODE_ENV=production DEBUG=server,errors node index.js
