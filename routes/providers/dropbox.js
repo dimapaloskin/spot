@@ -6,6 +6,7 @@ const config = require('./../../config');
 const Account = require('./../../models/account');
 const createError = require('./../../utils/errors').createError;
 const dropboxProviderUtils = require('./../../providers/dropbox');
+const debug = require('debug')('route');
 
 module.exports = (router) => {
 
