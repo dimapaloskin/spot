@@ -5,7 +5,7 @@ const config = {
   server: {
     port: 3000,
     ssl: {
-      path: './../ssl/localhost/'
+      path: './ssl/localhost/'
     }
   },
 

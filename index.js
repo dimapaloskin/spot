@@ -58,7 +58,7 @@ const options = {
     rejectUnauthorized: false
 };
 
-const server = https.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
+const server = http.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', process.env.PORT || config.server.port);
 });
