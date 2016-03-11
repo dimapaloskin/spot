@@ -3,6 +3,8 @@ const domain = 'localhost';
 const config = {
 
   env: 'development',
+  domain: 'localhot:3000',
+  url: 'https://localhost:3000',
 
   server: {
     port: 3000,

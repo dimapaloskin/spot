@@ -1,6 +1,9 @@
 const config = {
 
   env: 'production',
+  domain: 'spotsty.com',
+  url: 'https://spotsty.com',
+
   server: {
     port: 3000,
     ssl: {

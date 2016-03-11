@@ -81,9 +81,7 @@ module.exports = (router) => {
           return next(createError('api', err));
         }
 
-        res.json({
-          status: true
-        });
+        res.redirect(config.url);
       });
 
     });
