@@ -9,13 +9,13 @@ const dropboxProviderUtils = require('./../../providers/dropbox');
 
 module.exports = (router) => {
 
-  router.get('/providers/dropbox/auth', (req, res, next) => {
+  router.get('/providers/dropbox/auth', isAuth, (req, res, next) => {
 
     const url = dropboxProviderUtils.getAuthUrl();
     res.redirect(url);
   });
 
-  router.get('/providers/dropbox/callback', (req, res, next) => {
+  router.get('/providers/dropbox/callback', isAuth, (req, res, next) => {
 
     const code = req.query.code;
 
@@ -77,7 +77,7 @@ module.exports = (router) => {
     });
   });
 
-  router.get('/providers/dropbox/search', (req, res, next) => {
+  router.get('/providers/dropbox/search', isAuth, (req, res, next) => {
 
     const q = req.query.q || '*';
     dropboxProviderUtils.search(req.user, q, (err, results) => {
