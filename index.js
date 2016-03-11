@@ -12,7 +12,7 @@ const passport = require('passport');
 const debug = require('debug')('server');
 
 const config = require('./config');
-const cpusCount = numWorkers = require('os').cpus().length;
+const cpusCount = require('os').cpus().length;
 debug('Cpus: ', cpusCount);
 
 const app = express();
@@ -61,11 +61,11 @@ if (config.env === 'development') {
 
   const server = https.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
 
-    debug('start listen %d', process.env.PORT || config.server.port);
+    debug('start listen https %d', process.env.PORT || config.server.port);
   });
 } else {
   app.listen(process.env.PORT || config.server.port, () => {
 
-    debug('start listen %d', process.env.PORT || config.server.port);
+    debug('start listen http %d', process.env.PORT || config.server.port);
   });
 }
