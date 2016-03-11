@@ -13,7 +13,7 @@ const debug = require('debug')('server');
 
 const config = require('./config');
 const cpusCount = numWorkers = require('os').cpus().length;
-debugger('Cpus: ', cpusCount);
+debug('Cpus: ', cpusCount);
 
 const app = express();
 mongoose.connect(config.mongoose.url);
