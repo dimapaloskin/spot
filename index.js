@@ -50,8 +50,8 @@ app.use((err, req, res, next) => {
 });
 
 const options = {
-    key: fs.readFileSync(config.ssl.path + '/root.key'),
-    cert: fs.readFileSync(config.ssl.path + '/root.crt'),
+    key: fs.readFileSync(config.server.ssl.path + '/root.key'),
+    cert: fs.readFileSync(config.server.ssl.path + '/root.crt'),
     requestCert: false,
     rejectUnauthorized: false
 };
