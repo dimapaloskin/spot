@@ -119,11 +119,12 @@ module.exports = {
         }
 
         callback(null, {
+          type: 'dropbox',
           user: {
             email: provider.email,
             name_details: provider.name_details
           },
-          results: body
+          results: this.processResults(body)
         });
       });
     }, (err, results) => {
@@ -152,6 +153,7 @@ module.exports = {
       }
 
       return {
+        id: item.metadata.id,
         type: item.metadata['.tag'],
         name: item.metadata.name,
         urls: [{
