@@ -10,6 +10,7 @@ const RedisStore = require('connect-redis')(session);
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cluster = require('cluster');
+const cors = require('cors');
 const debug = require('debug')('server');
 
 const config = require('./config');
@@ -38,6 +39,7 @@ if (cluster.isMaster) {
 
   const Account = require('./models/account');
 
+  app.use(cors());  
   app.use(session({
     store: new RedisStore(config.redis),
     secret: config.sessions.secret,

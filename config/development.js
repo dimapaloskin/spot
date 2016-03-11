@@ -14,7 +14,7 @@ const config = {
   },
 
   mongoose: {
-    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/fstlr'
+    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/spotsty'
   },
 
   sessions: {

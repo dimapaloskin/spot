@@ -2,10 +2,12 @@
 
 const request = require('request');
 const async = require('async');
+const _ = require('lodash');
 const config = require('./../config');
 const createError = require('./../utils/errors').createError;
 
 const apiUrls = {
+  web: 'https://dropbox.com/home/',
   accountInfo: 'https://api.dropboxapi.com/1/account/info',
   search: 'https://api.dropboxapi.com/2/files/search'
 };
@@ -51,6 +53,34 @@ module.exports = {
 
       callback(null, body);
     });
+  },
+
+  createClient(token, callback) {
+
+    return {
+      account: (callback) => {
+
+        request.get({
+          url: apiUrls.accountInfo,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }, (err, response, body) => {
+
+          body = JSON.parse(body);
+          if (err) {
+            return callback(createError('request', err));
+          }
+
+          if (body.hasOwnProperty('error')) {
+            return callback(createError('dropbox', body));
+          }
+
+          callback(null, body);
+        });
+      }
+
+    };
   },
 
   search(account, q, count, callback) {
@@ -103,34 +133,25 @@ module.exports = {
 
       callback(null, results);
     });
-
   },
 
-  createClient(token, callback) {
+  processResults(results) {
 
-    return {
-      account: (callback) => {
+    const processedResults = _.map(results.results.matches, (item) => {
 
-        request.get({
-          url: apiUrls.accountInfo,
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }, (err, response, body) => {
+      const type = item.metadata['.tag'];
+      let url = apiUrls.web;
 
-          body = JSON.parse(body);
-          if (err) {
-            return callback(createError('request', err));
-          }
-
-          if (body.hasOwnProperty('error')) {
-            return callback(createError('dropbox', body));
-          }
-
-          callback(null, body);
-        });
+      if (type === 'folder') {
+        url += item.metadata.path_display;
+      } else {
+        
       }
 
-    };
+      return {
+        type: item.metadata['.tag'],
+        name: item.metadata.name
+      }
+    });
   }
 };
