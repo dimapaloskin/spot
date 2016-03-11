@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const request = require('request');
 const async = require('async');
 const _ = require('lodash');
@@ -7,7 +8,7 @@ const config = require('./../config');
 const createError = require('./../utils/errors').createError;
 
 const apiUrls = {
-  web: 'https://dropbox.com/home/',
+  web: 'https://dropbox.com/home',
   accountInfo: 'https://api.dropboxapi.com/1/account/info',
   search: 'https://api.dropboxapi.com/2/files/search'
 };
@@ -137,21 +138,29 @@ module.exports = {
 
   processResults(results) {
 
-    const processedResults = _.map(results.results.matches, (item) => {
+    const processedResults = _.map(results.matches, (item) => {
 
       const type = item.metadata['.tag'];
-      let url = apiUrls.web;
+      let previewUrl = apiUrls.web;
 
       if (type === 'folder') {
-        url += item.metadata.path_display;
+        previewUrl += item.metadata.path_display;
       } else {
-        
+        const directory = path.dirname(item.metadata.path_display);
+        previewUrl += directory;
+        previewUrl += '?preview=' + item.metadata.name;
       }
 
       return {
         type: item.metadata['.tag'],
-        name: item.metadata.name
-      }
+        name: item.metadata.name,
+        urls: [{
+          type: 'preview',
+          url: previewUrl
+        }]
+      };
     });
+
+    return processedResults;
   }
 };
