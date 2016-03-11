@@ -61,7 +61,7 @@ const options = {
   debug('start listen %d', config.server.port);
 });*/
 
-app.listen(process.env.PORT || config.server.port, () => {
+/*app.listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', process.env.PORT || config.server.port);
-});
+});*/
