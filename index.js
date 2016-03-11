@@ -49,19 +49,19 @@ app.use((err, req, res, next) => {
   res.json(err);
 });
 
-/*const options = {
+const options = {
     key: fs.readFileSync(config.ssl.path + '/root.key'),
-    cert: fs.readFileSync('./ssl/.crt'),
+    cert: fs.readFileSync(config.ssl.path + '/root.crt'),
     requestCert: false,
     rejectUnauthorized: false
 };
 
-const server = https.createServer(options, app).listen(config.server.port, () => {
-
-  debug('start listen %d', config.server.port);
-});*/
-
-app.listen(process.env.PORT || config.server.port, () => {
+const server = https.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', process.env.PORT || config.server.port);
 });
+
+/*app.listen(process.env.PORT || config.server.port, () => {
+
+  debug('start listen %d', process.env.PORT || config.server.port);
+});*/
