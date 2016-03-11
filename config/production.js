@@ -12,7 +12,7 @@ const config = {
   },
 
   mongoose: {
-    url: process.env.MONGOLAB_URI
+    url: process.env.MONGODB_URL || 'mongodb://modulus:uWrNqrCXtu@ds011379.mlab.com:11379/spotsty'
   },
 
   sessions: {
@@ -24,7 +24,7 @@ const config = {
   },
 
   redis: {
-    url: process.env.REDISCLOUD_URL
+    url: process.env.REDISCLOUD_URL || 'redis://spotsty:ZW3SAFfRTT@pub-redis-10516.us-east-1-4.4.ec2.garantiadata.com:10516'
   },
 
   cloud: {
