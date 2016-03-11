@@ -2,6 +2,7 @@
 
 const googleAuth = require('google-auth-library');
 const google = require('googleapis');
+const _ = require('lodash');
 const async = require('async');
 const config = require('./../config');
 const createError = require('./../utils/errors').createError;
@@ -46,12 +47,16 @@ module.exports = {
           return callback(createError('google', err));
         }
 
+        const providerUser = {
+          account_name: provider.account_name,
+          account_image_url: provider.account_image_url
+        };
+
         callback(null, {
-          results: results,
-          user: {
-            account_name: provider.account_name,
-            account_image_url: provider.account_image_url
-          }
+          provider: 'google',
+          results: this.processResults(results, providerUser),
+          user: providerUser,
+          count: results.files.length
         });
       });
     }, (err, results) => {
@@ -62,6 +67,28 @@ module.exports = {
 
       callback(null, results);
     });
+  },
+
+  processResults(results, providerUser) {
+
+    const processedResults = _.map(results.files, (item) => {
+
+      return {
+        id: item.id,
+        name: item.name,
+        type: item.mimeType,
+        provider: {
+          type: 'google',
+          user: providerUser
+        },
+        urls: [{
+          type: 'preview',
+          url: item.webViewLink
+        }]
+      };
+    });
+
+    return processedResults;
   }
 
 };

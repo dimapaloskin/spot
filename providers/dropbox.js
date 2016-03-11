@@ -97,7 +97,7 @@ module.exports = {
       const body = {
         query: q,
         path: '',
-        max_results: 10
+        max_results: count
       };
 
       request.post({
@@ -118,13 +118,16 @@ module.exports = {
           return callback(createError('dropbox', body));
         }
 
+        const providerUser = {
+          email: provider.email,
+          name_details: provider.name_details
+        };
+
         callback(null, {
-          type: 'dropbox',
-          user: {
-            email: provider.email,
-            name_details: provider.name_details
-          },
-          results: this.processResults(body)
+          provider: 'dropbox',
+          user: providerUser,
+          results: this.processResults(body, providerUser),
+          count: body.matches.length
         });
       });
     }, (err, results) => {
@@ -137,7 +140,7 @@ module.exports = {
     });
   },
 
-  processResults(results) {
+  processResults(results, providerUser) {
 
     const processedResults = _.map(results.matches, (item) => {
 
@@ -156,6 +159,10 @@ module.exports = {
         id: item.metadata.id,
         type: item.metadata['.tag'],
         name: item.metadata.name,
+        provider: {
+          type: 'dropbox',
+          user: providerUser
+        },
         urls: [{
           type: 'preview',
           url: previewUrl
