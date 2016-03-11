@@ -1,10 +1,9 @@
-console.log(__dirname);
 const config = {
 
   server: {
     port: 3000,
     ssl: {
-      path: './../ssl/spotsty/'
+      path: './ssl/spotsty/'
     }
   },
 
