@@ -49,6 +49,8 @@ app.use((err, req, res, next) => {
   res.json(err);
 });
 
+debug('start');
+
 const options = {
     key: fs.readFileSync(config.server.ssl.path + 'root.key'),
     cert: fs.readFileSync(config.server.ssl.path + 'root.crt'),
