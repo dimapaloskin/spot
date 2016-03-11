@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 
 debug('start');
 
-const options = {
+/*const options = {
     key: fs.readFileSync(config.server.ssl.path + 'root.key'),
     cert: fs.readFileSync(config.server.ssl.path + 'root.crt'),
     requestCert: false,
@@ -62,9 +62,9 @@ const options = {
 const server = http.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', process.env.PORT || config.server.port);
-});
+});*/
 
-/*app.listen(process.env.PORT || config.server.port, () => {
+app.listen(process.env.PORT || config.server.port, () => {
 
   debug('start listen %d', process.env.PORT || config.server.port);
-});*/
+});
