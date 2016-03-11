@@ -1,7 +1,6 @@
 'use strict';
 
 const https = require('https');
-const http = require('http');
 const fs = require('fs');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -13,6 +12,8 @@ const passport = require('passport');
 const debug = require('debug')('server');
 
 const config = require('./config');
+const cpusCount = numWorkers = require('os').cpus().length;
+debugger('Cpus: ', cpusCount);
 
 const app = express();
 mongoose.connect(config.mongoose.url);
@@ -50,21 +51,21 @@ app.use((err, req, res, next) => {
   res.json(err);
 });
 
-debug('start');
+if (config.env === 'development') {
+  const options = {
+      key: fs.readFileSync('./ssl/localhost/root.key'),
+      cert: fs.readFileSync('./ssl/localhost/root.crt'),
+      requestCert: false,
+      rejectUnauthorized: false
+  };
 
-/*const options = {
-    key: fs.readFileSync(config.server.ssl.path + 'root.key'),
-    cert: fs.readFileSync(config.server.ssl.path + 'root.crt'),
-    requestCert: false,
-    rejectUnauthorized: false
-};
+  const server = https.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
 
-const server = http.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
+    debug('start listen %d', process.env.PORT || config.server.port);
+  });
+} else {
+  app.listen(process.env.PORT || config.server.port, () => {
 
-  debug('start listen %d', process.env.PORT || config.server.port);
-});*/
-
-app.listen(process.env.PORT || config.server.port, () => {
-
-  debug('start listen %d', process.env.PORT || config.server.port);
-});
+    debug('start listen %d', process.env.PORT || config.server.port);
+  });
+}

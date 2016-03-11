@@ -2,6 +2,8 @@ const domain = 'localhost';
 
 const config = {
 
+  env: 'development',
+
   server: {
     port: 3000,
     ssl: {

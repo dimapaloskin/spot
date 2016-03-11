@@ -1,5 +1,6 @@
 const config = {
 
+  env: 'production',
   server: {
     port: 3000,
     ssl: {
