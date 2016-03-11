@@ -1,3 +1,4 @@
+console.log(__dirname);
 const config = {
 
   server: {
