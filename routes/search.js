@@ -4,6 +4,7 @@ const async = require('async');
 const _ = require('lodash');
 const googleDriveProviderUtils = require('./../providers/google-drive');
 const dropboxProviderUtils = require('./../providers/dropbox');
+const evernoteProviderUtils = require('./../providers/evernote');
 const isAuth = require('./../middleware/auth');
 const createError = require('./../utils/errors').createError;
 
@@ -32,6 +33,18 @@ module.exports = (router) => {
 
           if (err) {
             return callback(createError('google', err));
+          }
+
+          callback(null, results);
+        });
+      },
+
+      evernote: (callback) => {
+
+        evernoteProviderUtils.search(req.user, q, 5, (err, results) => {
+
+          if (err) {
+            return callback(createError('evernote', err));
           }
 
           callback(null, results);

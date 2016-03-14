@@ -31,6 +31,12 @@ module.exports = {
 
     const client = this.createClient();
     const providers = account.getProvidersByType('google');
+    if (!providers) {
+      return callback(createError('api', {
+        message: 'google drive providers not found'
+      }));
+    }
+
     const service = google.drive('v3');
 
 
