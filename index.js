@@ -10,7 +10,6 @@ const RedisStore = require('connect-redis')(session);
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cluster = require('cluster');
-const cors = require('cors');
 const debug = require('debug')('server');
 const colors = require('colors');
 
@@ -41,7 +40,17 @@ if (cluster.isMaster) {
 
   const Account = require('./models/account');
 
-  app.use(cors());
+  const allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+
+    next();
+  };
+
+  app.use(allowCrossDomain);
+
   app.use(session({
     store: new RedisStore(config.redis),
     secret: config.sessions.secret,
