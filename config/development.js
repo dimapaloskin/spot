@@ -43,6 +43,12 @@ const config = {
       redirectUrl: 'https://localhost:3000/api/v1/providers/dropbox/callback',
       authUrl: 'https://www.dropbox.com/1/oauth2/authorize',
       tokenUrl: 'https://api.dropboxapi.com/1/oauth2/token'
+    },
+
+    evernote: {
+      consumerKey: 'dima183',
+      consumerSecret: '6a36808eb1d2e03c',
+      redirectUrl: 'https://localhost:3000/api/v1/providers/evernote/callback'
     }
   }
 };
