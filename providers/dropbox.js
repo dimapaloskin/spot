@@ -43,13 +43,20 @@ module.exports = {
 
     request.post(options, (err, response, body) => {
 
-      body = JSON.parse(body);
       if (err) {
         return callback(createError('request', err));
       }
 
       if (body.hasOwnProperty('error')) {
         return callback(createError('dropbox', body));
+      }
+
+      try {
+        body = JSON.parse(body);
+      } catch(e) {
+        return callback(createError('dropbox', {
+          message: 'json parse error'
+        }));
       }
 
       callback(null, body);
