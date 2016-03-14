@@ -18,5 +18,14 @@ module.exports = {
     });
 
     return client;
+  },
+
+  createAuthClient(token, callback) {
+
+    const client = new Evernote.Client({
+      token: token
+    });
+
+    return client;
   }
 };
