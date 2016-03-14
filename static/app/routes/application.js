@@ -19,7 +19,7 @@ export default Ember.Route.extend({
         auth.set('account', result.account);
         resolve();
 
-      }, function (response) {
+      }, function () {
 
         auth.set('isAuth', false);
         auth.set('account', null);

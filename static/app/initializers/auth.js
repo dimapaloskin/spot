@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 export function initialize(application) {
   const auth = Ember.Object.extend({
     isAuth: false,
