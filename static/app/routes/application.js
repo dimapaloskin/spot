@@ -12,14 +12,14 @@ export default Ember.Route.extend({
       }
     });
 
-    return new Ember.RSVP.Promise(function (resolve) {
+    return new Ember.RSVP.Promise((resolve) => {
       request.then(function (result) {
 
         auth.set('isAuth', true);
         auth.set('account', result.account);
         resolve();
 
-      }, function () {
+      }, () => {
 
         auth.set('isAuth', false);
         auth.set('account', null);
