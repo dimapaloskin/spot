@@ -92,6 +92,12 @@ module.exports = {
     }
 
     const providers = account.getProvidersByType('dropbox');
+    if (!providers) {
+      return callback(createError('api', {
+        message: 'dropbox providers not found'
+      }));
+    }
+
     async.map(providers, (provider, callback) => {
 
       const body = {
