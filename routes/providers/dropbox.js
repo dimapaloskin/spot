@@ -57,13 +57,13 @@ module.exports = (router) => {
           token: results.token
         };
 
-        account.addProvider(providerData, (err, results) => {
+        account.addProvider(providerData, (err, result) => {
 
           if (err) {
             return callback(createError('model', err));
           }
 
-          callback(null, results);
+          callback(null, result);
         });
       }]
     }, (err, results) => {
