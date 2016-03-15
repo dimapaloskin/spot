@@ -33,7 +33,7 @@ module.exports = {
     const providers = account.getProvidersByType('google');
     if (!providers) {
       return callback(createError('api', {
-        message: 'google drive providers not found'
+        message: 'providers_not_found'
       }));
     }
 
@@ -51,7 +51,15 @@ module.exports = {
       }, (err, results) => {
 
         if (err) {
-          return callback(createError('google', err));
+          return callback(null, createError('google', {
+            message: err.message,
+            account_id: provider.account_id,
+            code: err.code,
+            user: {
+              account_name: provider.account_name,
+              account_image_url: provider.account_image_url
+            }
+          }));
         }
 
         const providerUser = {

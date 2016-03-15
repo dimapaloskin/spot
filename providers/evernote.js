@@ -66,7 +66,14 @@ module.exports = {
       noteStore.findNotesMetadata(config.cloud.evernote.developerToken, filter, 0, count, resultSpec, (err, results) => {
 
         if (err) {
-          return callback(createError('evernote', err));
+          return callback(null, createError('evernote', {
+            message: err.parameter,
+            code: err.errorCode,
+            account_id: provider.account_id,
+            user: {
+              username: provider.username
+            }
+          }));
         }
 
         const providerUser = {

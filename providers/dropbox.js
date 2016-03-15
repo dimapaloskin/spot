@@ -122,13 +122,22 @@ module.exports = {
         }
       }, (err, response, body) => {
 
-        body = JSON.parse(body);
         if (err) {
-          return callback(createError('request', err));
+          return callback(null, createError('request', err));
+        }
+
+        try {
+          body = JSON.parse(body);
+        } catch(e) {
+          return callback(null, createError('dropbox', {
+            account_id: provider.account_id,
+            message: body,
+            user: provider.name_details
+          }));
         }
 
         if (body.hasOwnProperty('error')) {
-          return callback(createError('dropbox', body));
+          return callback(null, createError('dropbox', body));
         }
 
         const providerUser = {

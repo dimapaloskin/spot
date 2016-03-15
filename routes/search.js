@@ -70,20 +70,8 @@ module.exports = (router) => {
       }
 
       const keys = _.keys(results);
-      const resultsArray = _.map(keys, (key) => {
-
-        if (results[key].hasOwnProperty('error')) {
-          return {
-            provider: key,
-            message: results[key].error.message
-          };
-        } else {
-          return results[key];
-        }
-      });
-
+      const resultsArray = _.map(keys, (key) => results[key]);
       const concatedResults = _.concat.apply(null, resultsArray);
-
 
       res.json(concatedResults);
     });
