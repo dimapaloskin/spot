@@ -1,10 +1,22 @@
 'use strict';
 
+const processErrors = {
+  google: (err) => {
+
+    if (err.message === 'Invalid Credentials') {
+      err.message = 'auth_error';
+      return err;
+    }
+
+    return err;
+  }
+
+};
+
 module.exports = {
 
   createError(type, error) {
 
-    console.log(type, error);
     if (typeof error === 'string') {
       error = {
         message: error,
@@ -16,8 +28,14 @@ module.exports = {
       return error;
     }
 
-    console.log('Type: ' + type);
-    console.trace(error);
+    if (type === 'model' || type === 'api') {
+      console.log('Type: ' + type);
+      console.log(error);
+    }
+
+    if (type === 'google') {
+      error = processErrors.google(error);
+    }
 
     return {
       type,

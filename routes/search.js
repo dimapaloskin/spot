@@ -17,38 +17,50 @@ module.exports = (router) => {
     async.auto({
       dropbox: (callback) => {
 
-        dropboxProviderUtils.search(req.user, q, 5, (err, results) => {
+        if (req.user.getProvidersByType('dropbox')) {
+          return dropboxProviderUtils.search(req.user, q, 5, (err, results) => {
 
-          if (err) {
-            return callback(createError('dropbox', err));
-          }
+            if (err) {
+              return callback(null, createError('dropbox', err));
+            }
 
-          callback(null, results);
-        });
+            callback(null, results);
+          });
+        }
+
+        callback(null, null);
       },
 
-      googleDrive: (callback) => {
+      google: (callback) => {
 
-        googleDriveProviderUtils.search(req.user, q, 5, (err, results) => {
+        if (req.user.getProvidersByType('google')) {
+          return googleDriveProviderUtils.search(req.user, q, 5, (err, results) => {
 
-          if (err) {
-            return callback(createError('google', err));
-          }
+            if (err) {
+              return callback(null, createError('google', err));
+            }
 
-          callback(null, results);
-        });
+            callback(null, results);
+          });
+        }
+
+        callback(null, null);
       },
 
       evernote: (callback) => {
 
-        evernoteProviderUtils.search(req.user, q, 5, (err, results) => {
+        if (req.user.getProvidersByType('evernote')) {
+          return evernoteProviderUtils.search(req.user, q, 5, (err, results) => {
 
-          if (err) {
-            return callback(createError('evernote', err));
-          }
+            if (err) {
+              return callback(null, createError('evernote', err));
+            }
 
-          callback(null, results);
-        });
+            callback(null, results);
+          });
+        }
+
+        callback(null, null);
       }
 
     }, (err, results) => {
@@ -58,7 +70,18 @@ module.exports = (router) => {
       }
 
       const keys = _.keys(results);
-      const resultsArray = _.map(keys, (key) => results[key]);
+      const resultsArray = _.map(keys, (key) => {
+
+        if (results[key].hasOwnProperty('error')) {
+          return {
+            provider: key,
+            message: results[key].error.message
+          };
+        } else {
+          return results[key];
+        }
+      });
+
       const concatedResults = _.concat.apply(null, resultsArray);
 
 

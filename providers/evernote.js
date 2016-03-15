@@ -36,6 +36,10 @@ module.exports = {
       count = 10;
     }
 
+    const query = _.map(q.split(' '), (word) => {
+      return `*${word}*`;
+    }).join(' ');
+
     const providers = account.getProvidersByType('evernote');
 
     if (!providers) {
@@ -49,7 +53,8 @@ module.exports = {
 
       const noteStore = authClient.getNoteStore();
       const filter = new Evernote.NoteFilter({
-        words: q
+        //words: q,
+        emphasized: query
       });
 
       const resultSpec = new Evernote.NotesMetadataResultSpec({
@@ -88,8 +93,6 @@ module.exports = {
   },
 
   processResults(results, providerUser, provider) {
-
-    console.log(provider);
 
     const processedResults = _.map(results.notes, (item) => {
 
