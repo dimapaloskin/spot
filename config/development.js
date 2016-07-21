@@ -14,7 +14,7 @@ const config = {
   },
 
   mongoose: {
-    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/fstlr'
+    url: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/spotsty'
   },
 
   sessions: {
@@ -43,6 +43,13 @@ const config = {
       redirectUrl: 'https://localhost:3000/api/v1/providers/dropbox/callback',
       authUrl: 'https://www.dropbox.com/1/oauth2/authorize',
       tokenUrl: 'https://api.dropboxapi.com/1/oauth2/token'
+    },
+
+    evernote: {
+      consumerKey: 'dima183-3753',
+      consumerSecret: '7f3c0e0a58b05238',
+      redirectUrl: 'https://localhost:3000/api/v1/providers/evernote/callback',
+      developerToken: 'S=s1:U=92377:E=15acd454975:C=15375941b90:P=1cd:A=en-devtoken:V=2:H=40582c08a235b00b94b6fad001ded41d'
     }
   }
 };

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=server,error node index.js",
+    "start": "NODE_ENV=development DEBUG=server,router,error node index.js",
+    "start-win": "set DEBUG=server,router,error && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,9 +14,12 @@
     "async": "^1.5.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
+    "colors": "^1.1.2",
     "connect-redis": "^3.0.2",
     "cookie-parser": "^1.4.1",
+    "cors": "^2.7.1",
     "debug": "^2.2.0",
+    "evernote": "^1.25.82",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "google-auth-library": "^0.9.7",

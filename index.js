@@ -11,12 +11,14 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const cluster = require('cluster');
 const debug = require('debug')('server');
+const colors = require('colors');
 
 const config = require('./config');
 const cpusCount = config.env === 'development' ? 1 : require('os').cpus().length;
 
 if (cluster.isMaster) {
 
+  debug(`Start running server in ${config.env.green} environment`);
   for (let i = 0; i < cpusCount; i++) {
     cluster.fork();
   }
@@ -27,7 +29,7 @@ if (cluster.isMaster) {
 
   cluster.on('exit', (worker, code, signal) => {
 
-    debug(`Worker ${worker.process.pid} is diad with code: ${cide}, and signal: ${signal}`);
+    debug(`Worker ${worker.process.pid} is ${'dead'.red} with code: ${cide}, and signal: ${signal}`);
     debug('Starting a new worker...');
     cluster.fork();
   });
@@ -37,6 +39,17 @@ if (cluster.isMaster) {
   mongoose.connect(config.mongoose.url);
 
   const Account = require('./models/account');
+
+  const allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+
+    next();
+  };
+
+  app.use(allowCrossDomain);
 
   app.use(session({
     store: new RedisStore(config.redis),
@@ -77,15 +90,16 @@ if (cluster.isMaster) {
         rejectUnauthorized: false
     };
 
-    const server = https.createServer(options, app).listen(process.env.PORT || config.server.port, () => {
+    const port = process.env.PORT || config.server.port;
+    const server = https.createServer(options, app).listen(port, () => {
 
-      debug('Start listen https %d', process.env.PORT || config.server.port);
+      debug('Start listen https %d'.green, port);
       debug(`Process: ${process.pid}`);
     });
   } else {
-    app.listen(process.env.PORT || config.server.port, () => {
+    app.listen(port, () => {
 
-      debug('Start listen http %d', process.env.PORT || config.server.port);
+      debug('Start listen http %d'.green, port);
       debug(`Process: ${process.pid}`);
     });
   }

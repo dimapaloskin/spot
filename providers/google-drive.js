@@ -2,9 +2,11 @@
 
 const googleAuth = require('google-auth-library');
 const google = require('googleapis');
+const _ = require('lodash');
 const async = require('async');
 const config = require('./../config');
 const createError = require('./../utils/errors').createError;
+const debug = require('debug')('provider:google-drive');
 
 module.exports = {
 
@@ -29,6 +31,12 @@ module.exports = {
 
     const client = this.createClient();
     const providers = account.getProvidersByType('google');
+    if (!providers) {
+      return callback(createError('api', {
+        message: 'providers_not_found'
+      }));
+    }
+
     const service = google.drive('v3');
 
 
@@ -43,15 +51,27 @@ module.exports = {
       }, (err, results) => {
 
         if (err) {
-          return callback(createError('google', err));
+          return callback(null, createError('google', {
+            message: err.message,
+            account_id: provider.account_id,
+            code: err.code,
+            user: {
+              account_name: provider.account_name,
+              account_image_url: provider.account_image_url
+            }
+          }));
         }
 
+        const providerUser = {
+          account_name: provider.account_name,
+          account_image_url: provider.account_image_url
+        };
+
         callback(null, {
-          results: results,
-          user: {
-            account_name: provider.account_name,
-            account_image_url: provider.account_image_url
-          }
+          provider: 'google',
+          results: this.processResults(results, providerUser),
+          user: providerUser,
+          count: results.files.length
         });
       });
     }, (err, results) => {
@@ -62,6 +82,28 @@ module.exports = {
 
       callback(null, results);
     });
+  },
 
+  processResults(results, providerUser) {
+
+    const processedResults = _.map(results.files, (item) => {
+
+      return {
+        id: item.id,
+        name: item.name,
+        type: item.mimeType,
+        provider: {
+          type: 'google',
+          user: providerUser
+        },
+        urls: [{
+          type: 'preview',
+          url: item.webViewLink
+        }]
+      };
+    });
+
+    return processedResults;
   }
+
 };
