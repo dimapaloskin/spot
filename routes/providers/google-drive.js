@@ -13,7 +13,7 @@ module.exports = (router) => {
 
       const client = googleDriveProviderUtils.createClient();
       const authUrl = client.generateAuthUrl({
-        ccess_type: 'offline',
+        access_type: 'offline',
         scope: config.cloud.google.scopes
       });
 
